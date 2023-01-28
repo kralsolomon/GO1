@@ -7,17 +7,15 @@ import (
 	"strings"
 )
 
-var ErrInvalidRuntimeFormat = errors.New("invalid runtime format")
-
 type Runtime int32
 
 func (r Runtime) MarshalJSON() ([]byte, error) {
 	jsonValue := fmt.Sprintf("%d mins", r)
-
-	quotedJSONvalue := strconv.Quote(jsonValue)
-
-	return []byte(quotedJSONvalue), nil
+	quotedJSONValue := strconv.Quote(jsonValue)
+	return []byte(quotedJSONValue), nil
 }
+
+var ErrInvalidRuntimeFormat = errors.New("invalid runtime format")
 
 func (r *Runtime) UnmarshalJSON(jsonValue []byte) error {
 	// We expect that the incoming JSON value will be a string in the format
@@ -41,8 +39,8 @@ func (r *Runtime) UnmarshalJSON(jsonValue []byte) error {
 	if err != nil {
 		return ErrInvalidRuntimeFormat
 	}
-	// Convert the int32 to a Runtime type and assign this to the receiver. Note that we use
-	//  the * operator to deference the receiver (which is a pointer to a Runtime
+	// Convert the int32 to a Runtime type and assign this to the receiver. Note that we
+	// use the * operator to deference the receiver (which is a pointer to a Runtime
 	// type) in order to set the underlying value of the pointer.
 	*r = Runtime(i)
 	return nil
